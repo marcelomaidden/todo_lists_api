@@ -43,7 +43,7 @@ GEM
     byebug (9.0.6)
     concurrent-ruby (1.0.5)
     erubis (2.7.0)
-    ffi (1.9.18)
+    ffi (1.15.5)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     i18n (0.8.4)
@@ -61,6 +61,7 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.2.0)
     minitest (5.10.2)
+    mysql2 (0.5.3)
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
@@ -121,8 +122,9 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  jwt
+  jwt (~> 2.3)
   listen (~> 3.0.5)
+  mysql2
   puma (~> 3.0)
   rails (~> 5.0.3)
   spring
