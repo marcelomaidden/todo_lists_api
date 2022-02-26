@@ -10,20 +10,27 @@ class TasksController < ApplicationController
   def show
     return render json: { task: @task } if @task.present?
 
-    render json: { status: "error", message: "Task not found" }
+    not_found
+  end
+
+  def update
+    return not_found unless @task.present?
+
+    return render_error(@task.errors) unless @task.update(task_params)
+
+    render json: { task: @task }
+  rescue ArgumentError => e
+    render_error(e)
   end
 
   def create
     @task = Task.new(task_params.merge({ user_id: current_user.id }))
 
-    if @task.save
-      render json: { status: "success", task: @task }
-    else
-      render json: { status: "error", errors: @task.errors }
-    end
+    return render_error(@task.errors) unless @task.save
 
+    render json: { status: "success", task: @task }
   rescue ArgumentError => e
-    render json: { status: "error", errors: e }
+    render_error(e)
   end
 
   private
@@ -33,9 +40,9 @@ class TasksController < ApplicationController
 
     return if from_user?
 
-    @task = nil
+    return render_error("Unauthorized")
   rescue ActiveRecord::RecordNotFound
-    render json: { status: "error", message: "Task not found" }
+    render_error("Task not found")
   end
 
   def from_user?
