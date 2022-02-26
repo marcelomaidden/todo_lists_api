@@ -1,4 +1,4 @@
-class TasksController < ApplicationController
+class TasksController < BaseTaskController
   before_action :load_task, only: %i[show update complete uncomplete destroy]
   before_action :load_tasks, only: %i[index completed uncompleted]
 
@@ -58,20 +58,6 @@ class TasksController < ApplicationController
 
   def load_tasks
     @tasks = Task.from_user(current_user.id)
-  end
-
-  def load_task
-    @task = Task.find(params[:id])
-
-    return if from_user?
-
-    return render_error("Unauthorized")
-  rescue ActiveRecord::RecordNotFound
-    render_error("Task not found")
-  end
-
-  def from_user?
-    @task.user_id == current_user.id
   end
 
   def task_params

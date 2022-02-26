@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :notes, only: %i[show update destroy]
+
   resources :users, only: %i[show create]
 
   resources :tasks do
@@ -12,6 +14,8 @@ Rails.application.routes.draw do
       put :uncomplete
       patch :complete
       patch :uncomplete
+      get :notes, to: "notes#index"
+      post :notes, to: "notes#create"
     end
   end
 
