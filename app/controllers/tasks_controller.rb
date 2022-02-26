@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :load_task, only: %i[show update]
+  before_action :load_task, only: %i[show update complete uncomplete destroy]
   before_action :load_tasks, only: %i[index completed uncompleted]
 
   def index
@@ -20,6 +20,14 @@ class TasksController < ApplicationController
     render json: { tasks: @tasks.uncompleted }
   end
 
+  def complete
+    render json: { status: "success", task: @task.completed! }
+  end
+
+  def uncomplete
+    render json: { status: "success", task: @task.uncompleted! }
+  end
+
   def update
     return not_found unless @task.present?
 
@@ -38,6 +46,12 @@ class TasksController < ApplicationController
     render json: { status: "success", task: @task }
   rescue ArgumentError => e
     render_error(e)
+  end
+
+  def destroy
+    return render_error(@task.errors) unless @task.delete
+
+    render json: { status: "success", message: "Task deleted" }
   end
 
   private

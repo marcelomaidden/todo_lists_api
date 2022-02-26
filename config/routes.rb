@@ -1,9 +1,15 @@
 Rails.application.routes.draw do
   resources :users
+
   resources :tasks do
     collection do
       get :completed
       get :uncompleted
+    end
+
+    member do
+      put :complete
+      put :uncomplete
     end
   end
 
