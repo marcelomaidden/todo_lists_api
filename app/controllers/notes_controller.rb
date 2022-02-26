@@ -3,21 +3,21 @@ class NotesController < BaseTaskController
   before_action :load_note, only: %i[show update destroy]
 
   def index
-    render json: { status: "success", notes: @task.notes }
+    render json: { status: 'success', notes: @task.notes }
   end
 
   def show
-    render json: { status: "success", note: @note }
+    render json: { status: 'success', note: @note }
   end
 
   def create
-    @note = Note.new(note_params.merge({ task_id: @task.id }))
+    @note = Note.new(note_params.merge(task_id: @task.id))
 
     return render_error(@note.errors) unless @note.save
 
-    render json: { status: "success", note: @note }
+    render json: { status: 'success', note: @note }
   rescue ActionController::ParameterMissing
-    render_error("Parameter description is missing")
+    render_error('Parameter description is missing')
   end
 
   def update
@@ -29,13 +29,13 @@ class NotesController < BaseTaskController
   rescue ArgumentError => e
     render_error(e)
   rescue ActionController::ParameterMissing
-    render_error("Parameter description is missing")
+    render_error('Parameter description is missing')
   end
 
   def destroy
     return render_error(@note.errors) unless @note.delete
 
-    render json: { status: "success", message: "Note deleted" }
+    render json: { status: 'success', message: 'Note deleted' }
   end
 
   private
@@ -45,9 +45,9 @@ class NotesController < BaseTaskController
 
     return if from_user?(@note.task)
 
-    return render_error("Unauthorized")
+    render_error('Unauthorized')
   rescue ActiveRecord::RecordNotFound
-    render_error("Note not found")
+    render_error('Note not found')
   end
 
   def note_params

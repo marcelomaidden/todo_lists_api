@@ -15,15 +15,15 @@ class UsersController < ApplicationController
       render json: @user.errors
     end
   rescue ActionController::ParameterMissing
-    render_error("Parameter user required")
+    render_error('Parameter user required')
   end
 
   def login
     return render json: { token: jwt_token } if jwt_token
 
-    render_error("Invalid credentials")
+    render_error('Invalid credentials')
   rescue ActionController::ParameterMissing
-    render_error("Parameter user required")
+    render_error('Parameter user required')
   end
 
   private
@@ -31,9 +31,7 @@ class UsersController < ApplicationController
   def validate_user
     @user = User.find(params[:id])
 
-    if @user.id != current_user.id
-      return render_error("Unauthorized")
-    end
+    return render_error('Unauthorized') if @user.id != current_user.id
   end
 
   def user_params
