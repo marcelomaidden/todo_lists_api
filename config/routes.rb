@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :users
+  resources :users, only: %i[show create]
 
   resources :tasks do
     collection do
@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     member do
       put :complete
       put :uncomplete
+      patch :complete
+      patch :uncomplete
     end
   end
 
