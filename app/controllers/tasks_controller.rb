@@ -1,9 +1,8 @@
 class TasksController < ApplicationController
   before_action :load_task, only: %i[show update]
+  before_action :load_tasks, only: %i[index completed uncompleted]
 
   def index
-    @tasks = Task.from_user(current_user.id)
-
     render json: { tasks: @tasks }
   end
 
@@ -11,6 +10,14 @@ class TasksController < ApplicationController
     return render json: { task: @task } if @task.present?
 
     not_found
+  end
+
+  def completed
+    render json: { tasks: @tasks.completed }
+  end
+
+  def uncompleted
+    render json: { tasks: @tasks.uncompleted }
   end
 
   def update
@@ -34,6 +41,10 @@ class TasksController < ApplicationController
   end
 
   private
+
+  def load_tasks
+    @tasks = Task.from_user(current_user.id)
+  end
 
   def load_task
     @task = Task.find(params[:id])
