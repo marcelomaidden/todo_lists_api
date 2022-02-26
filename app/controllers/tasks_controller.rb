@@ -1,67 +1,80 @@
 class TasksController < ApplicationController
+  before_action :load_task, only: %i[show update complete uncomplete destroy]
+  before_action :load_tasks, only: %i[index completed uncompleted]
 
   def index
-    @tasks = Task.all
-
-    json = []
-    @tasks.each do |task|
-      json << {"title": task.title, "completed" task.completed}
-    end
-
-    render json: json
-  end
-
-  def uncompleted_tasks
-    @tasks = Task.all.where(completed: false)
-
-    json = []
-    @tasks.each do |task|
-      json << {"title": task.title, "completed" task.completed}
-    end
-
-    render json: json
-  end
-
-  def completed_tasks
-    @tasks = Task.all.where(completed: true)
-
-    json = []
-    @tasks.each do |task|
-      json << {"title": task.title, "completed" task.completed}
-    end
-
-    render json: json
+    render json: { tasks: @tasks }
   end
 
   def show
-    @task = Task.find(params[:id])
-    render json: {"title": @task.title, "completed" @task.completed}
+    return render json: { task: @task } if @task.present?
+
+    not_found
   end
 
-  def create
-    @task = Task.new(params[:task])
+  def completed
+    render json: { tasks: @tasks.completed }
+  end
 
-    if @task.save
-      render json: {"title": @task.title, "completed" @task.completed}
-    else
-      render json: @task.errors
-    end
+  def uncompleted
+    render json: { tasks: @tasks.uncompleted }
+  end
+
+  def complete
+    render json: { status: "success", message: @task.completed! }
+  end
+
+  def uncomplete
+    render json: { status: "success", message: @task.uncompleted! }
   end
 
   def update
-    @task = Task.find(params[:id])
+    return not_found unless @task.present?
 
-    if @task.update(params[:task])
-      render json: {"title": @task.title, "completed" @task.completed}
-    else
-      render json: @task.errors
-    end
+    return render_error(@task.errors) unless @task.update(task_params)
+
+    render json: { task: @task }
+  rescue ArgumentError => e
+    render_error(e)
+  end
+
+  def create
+    @task = Task.new(task_params.merge({ user_id: current_user.id }))
+
+    return render_error(@task.errors) unless @task.save
+
+    render json: { status: "success", task: @task }
+  rescue ArgumentError => e
+    render_error(e)
   end
 
   def destroy
-    @task = Task.find(params[:id])
-    @task.destroy
+    return render_error(@task.errors) unless @task.delete
+
+    render json: { status: "success", message: "Task deleted" }
   end
 
+  private
 
+  def load_tasks
+    @tasks = Task.from_user(current_user.id)
+  end
+
+  def load_task
+    @task = Task.find(params[:id])
+
+    return if from_user?
+
+    return render_error("Unauthorized")
+  rescue ActiveRecord::RecordNotFound
+    render_error("Task not found")
+  end
+
+  def from_user?
+    @task.user_id == current_user.id
+  end
+
+  def task_params
+    params.require(:task).permit(:title, :status)
+  end
 end

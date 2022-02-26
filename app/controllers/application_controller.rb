@@ -17,10 +17,23 @@ class ApplicationController < ActionController::API
   private
 
   def token
-    request.headers['Authorization'].split.last
+    return unless authorization_header
+    authorization_header.split.last
+  end
+
+  def authorization_header
+    @authorization_header ||= request.headers['Authorization']
   end
 
   def jwt_decoded_token
     JwtAuthService.decode_token(token)
+  end
+
+  def not_found
+    render json: { status: "error", message: "Not found" }
+  end
+
+  def render_error(errors)
+    render json: { status: "error", errors: errors }
   end
 end
