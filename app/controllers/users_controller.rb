@@ -1,14 +1,9 @@
 class UsersController < ApplicationController
   skip_before_action :token_based_auth, only: %i[create login]
+  before_action :validate_user, only: %i[show update]
 
   def show
-    @user = User.find(params[:id])
-
-    if @user.id != current_user.id
-      render json: { status: "error",  message: "Not allowed user" }
-    else
-      render json: @user
-    end
+    render json: @user
   end
 
   def create
@@ -25,10 +20,20 @@ class UsersController < ApplicationController
   end
 
   def login
+    return render json: { token: jwt_token } if jwt_token
 
+    render json: { status: "error", message: "Invalid credentials"}
   end
 
   private
+
+  def validate_user
+    @user = User.find(params[:id])
+
+    if @user.id != current_user.id
+      return render json: { status: "error",  message: "Not allowed user" }
+    end
+  end
 
   def user_params
     params.require(:user).permit(:email, :password)
