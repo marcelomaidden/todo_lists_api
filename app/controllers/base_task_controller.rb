@@ -6,9 +6,9 @@ class BaseTaskController < ApplicationController
 
     return if from_user?(@task)
 
-    return render_error("Unauthorized")
+    render_error('Unauthorized')
   rescue ActiveRecord::RecordNotFound
-    render_error("Task not found")
+    render_error('Task not found')
   end
 
   def from_user?(task)

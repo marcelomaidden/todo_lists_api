@@ -21,11 +21,11 @@ class TasksController < BaseTaskController
   end
 
   def complete
-    render json: { status: "success", message: @task.completed! }
+    render json: { status: 'success', message: @task.completed! }
   end
 
   def uncomplete
-    render json: { status: "success", message: @task.uncompleted! }
+    render json: { status: 'success', message: @task.uncompleted! }
   end
 
   def update
@@ -37,25 +37,25 @@ class TasksController < BaseTaskController
   rescue ArgumentError => e
     render_error(e)
   rescue ActionController::ParameterMissing
-    render_error("Parameter description is missing")
+    render_error('Parameter description is missing')
   end
 
   def create
-    @task = Task.new(task_params.merge({ user_id: current_user.id }))
+    @task = Task.new(task_params.merge(user_id: current_user.id))
 
     return render_error(@task.errors) unless @task.save
 
-    render json: { status: "success", task: @task }
+    render json: { status: 'success', task: @task }
   rescue ArgumentError => e
     render_error(e)
   rescue ActionController::ParameterMissing
-    render_error("Parameter description is missing")
+    render_error('Parameter description is missing')
   end
 
   def destroy
     return render_error(@task.errors) unless @task.delete
 
-    render json: { status: "success", message: "Task deleted" }
+    render json: { status: 'success', message: 'Task deleted' }
   end
 
   private

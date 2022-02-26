@@ -15,7 +15,11 @@ class JwtAuthService
   end
 
   def self.decode_token(token)
-    JWT.decode token, JwtAuthService.hmac_secret, true, { algorithm: 'HS256' }
+    JWT.decode token, JwtAuthService.hmac_secret, true, algorithm: 'HS256'
+  end
+
+  def self.hmac_secret
+    ENV.fetch('hmac_secret', 'my_really_strong_secret')
   end
 
   private
@@ -29,9 +33,5 @@ class JwtAuthService
     return false unless user.authenticate(@password)
 
     true
-  end
-
-  def self.hmac_secret
-    ENV.fetch("hmac_secret", "my_really_strong_secret")
   end
 end
