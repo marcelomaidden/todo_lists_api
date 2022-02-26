@@ -21,7 +21,7 @@ class JwtAuthService
   private
 
   def payload
-    { user: { email: user.email } }
+    { user: { email: user.email, id: user.id } }
   end
 
   def valid_credentials?
