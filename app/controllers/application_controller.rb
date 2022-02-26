@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   before_action :token_based_auth
 
   def token_based_auth
-    return render_error("Authentication required") unless current_user.present?
+    return render_error('Authentication required') unless current_user.present?
 
     current_user
   end
