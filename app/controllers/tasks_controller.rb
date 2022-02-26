@@ -36,6 +36,8 @@ class TasksController < BaseTaskController
     render json: { task: @task }
   rescue ArgumentError => e
     render_error(e)
+  rescue ActionController::ParameterMissing
+    render_error("Parameter description is missing")
   end
 
   def create
@@ -46,6 +48,8 @@ class TasksController < BaseTaskController
     render json: { status: "success", task: @task }
   rescue ArgumentError => e
     render_error(e)
+  rescue ActionController::ParameterMissing
+    render_error("Parameter description is missing")
   end
 
   def destroy
