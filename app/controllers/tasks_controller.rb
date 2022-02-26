@@ -21,11 +21,11 @@ class TasksController < ApplicationController
   end
 
   def complete
-    render json: { status: "success", task: @task.completed! }
+    render json: { status: "success", message: @task.completed! }
   end
 
   def uncomplete
-    render json: { status: "success", task: @task.uncompleted! }
+    render json: { status: "success", message: @task.uncompleted! }
   end
 
   def update
