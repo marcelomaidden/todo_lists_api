@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :notes
+  resources :notes, only: %i[show update destroy]
 
   resources :users, only: %i[show create]
 

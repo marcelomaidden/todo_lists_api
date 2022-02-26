@@ -16,12 +16,26 @@ class NotesController < BaseTaskController
     return render_error(@note.errors) unless @note.save
 
     render json: { status: "success", note: @note }
+  rescue ActionController::ParameterMissing
+    render_error("Parameter description is missing")
   end
 
   def update
+    return not_found unless @note.present?
+
+    return render_error(@note.errors) unless @note.update(note_params)
+
+    render json: { note: @note }
+  rescue ArgumentError => e
+    render_error(e)
+  rescue ActionController::ParameterMissing
+    render_error("Parameter description is missing")
   end
 
   def destroy
+    return render_error(@note.errors) unless @note.delete
+
+    render json: { status: "success", message: "Note deleted" }
   end
 
   private
