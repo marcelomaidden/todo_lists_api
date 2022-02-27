@@ -23,8 +23,10 @@ curl http://localhost:3000/api/v1/login \
   -X POST \
   -H 'Content-Type: application/json' \
   -d '{
-    "user[email]": "YOUR_EMAIL",
-    "user[password]": "YOUR_PASSWORD"
+    "user": {  
+      "email": "marcelomaidden@gmail.com",
+      "password": "123456"
+    }
   }'
 ```
 
@@ -63,8 +65,10 @@ curl "http://localhost:3000/api/v1/users" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN" \
   -d '{
-    "user[email]": "YOUR_VALID_EMAIL",
-    "user[password]": "YOUR_PASSWORD"
+    "user": {  
+      "email": "marcelomaidden@gmail.com",
+      "password": "123456"
+    }
   }'
 ```
 
@@ -92,8 +96,10 @@ curl "http://localhost:3000/api/v1/tasks" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN" \
   -d '{
-    "task[title]": "Task title",
-    "task[status]": "completed"
+    "task": {
+      "title": "Task title",
+      "status": "completed"
+    }
   }'
 ```
 
@@ -123,8 +129,10 @@ curl "http://localhost:3000/api/v1/tasks/23" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN" \
   -d '{
-    "task[title]": "Changes Task title",
-    "task[status]": "completed"
+    "task": {
+      "title": "Task title",
+      "status": "completed"
+    }
   }'
 ```
 
@@ -305,7 +313,9 @@ curl "http://localhost:3000/api/v1/tasks/23/notes" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN" \
   -d '{
-    "note[description]": "Note description"
+    "note": {
+      "description": "Note description"
+    }
   }'
 ```
 
@@ -334,7 +344,9 @@ curl "http://localhost:3000/api/v1/notes/1" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN" \
   -d '{
-    "note[description]": "Changes Note description"
+    "note": {
+      "description": "Note description"
+    }
   }'
 ```
 
