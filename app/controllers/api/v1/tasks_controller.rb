@@ -37,7 +37,7 @@ class Api::V1::TasksController < Api::V1::BaseTaskController
   rescue ArgumentError => e
     render_bad_request(e)
   rescue ActionController::ParameterMissing
-    render_bad_request('Parameter description is missing')
+    render_bad_request('Parameter title is missing')
   end
 
   def create
@@ -49,7 +49,7 @@ class Api::V1::TasksController < Api::V1::BaseTaskController
   rescue ArgumentError => e
     render_bad_request(e)
   rescue ActionController::ParameterMissing
-    render_bad_request('Parameter description is missing')
+    render_bad_request('Parameter title is missing')
   end
 
   def destroy
