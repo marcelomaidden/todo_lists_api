@@ -21,6 +21,7 @@
 - Ruby
 - Ruby on Rails
 - Json Web Token
+- Rack CORS
 - RSpec
 - FactoryBot
 
@@ -49,6 +50,10 @@ To make any change,
 
 ## Usage
   - Run `rails s` on your terminal to start your server
+
+## CORS
+  - This project allows by default the requests coming from the localhost
+  - If you need to allow another origins, please change the file `config/initializers/cors` adding the origin in this line `origins 'localhost'`
 
 ## API Documentation
 
