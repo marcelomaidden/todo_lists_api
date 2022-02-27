@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Api::V1::TasksController, type: :controller do
   describe 'tasks' do
     before do
@@ -9,7 +9,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     let(:token) { JwtAuthService.new('my_email@gmail.com', '123456').authenticate }
     let(:user) { OpenStruct.new(JwtAuthService.decode_token(token)[0]['user']) }
     let(:params) do
-      { "task": { "title": "First task", "status": "completed" } }
+      { "task": { "title": 'First task', "status": 'completed' } }
     end
 
     context 'manages tasks' do
@@ -24,7 +24,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
             expect(response).to have_http_status(:success)
 
             response_body = JSON.parse(response.body)
-            expect(response_body).to eq({"task"=>{"id"=>1, "title"=>"First task", "status"=>"completed"}})
+            expect(response_body).to eq('task' => { 'id' => 1, 'title' => 'First task', 'status' => 'completed' })
           end
         end
 
@@ -41,13 +41,13 @@ RSpec.describe Api::V1::TasksController, type: :controller do
 
             response_body = JSON.parse(response.body)
             completed_tasks = JSON.parse(Task.completed.to_json)
-            expect(response_body).to eq({"tasks"=> completed_tasks})
+            expect(response_body).to eq('tasks' => completed_tasks)
           end
         end
 
         context 'not completed tasks' do
           let(:params_uncompleted) do
-            { "task": { "title": "First task", "status": "uncompleted" } }
+            { "task": { "title": 'First task', "status": 'uncompleted' } }
           end
 
           before do
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
 
             response_body = JSON.parse(response.body)
             uncompleted_tasks = JSON.parse(Task.uncompleted.to_json)
-            expect(response_body).to eq({"tasks"=> uncompleted_tasks})
+            expect(response_body).to eq('tasks' => uncompleted_tasks)
           end
         end
       end
@@ -81,7 +81,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
           context 'parameters missing' do
             context 'without title' do
               let(:without_title) do
-                { "task": { "status": "completed" } }
+                { "task": { "status": 'completed' } }
               end
 
               before do
@@ -104,7 +104,7 @@ RSpec.describe Api::V1::TasksController, type: :controller do
                 expect(response).to have_http_status(:bad_request)
 
                 response_body = JSON.parse(response.body)
-                expect(response_body).to eq({ 'error'=> 'Parameter title is missing' })
+                expect(response_body).to eq('error' => 'Parameter title is missing')
               end
             end
           end
@@ -113,3 +113,4 @@ RSpec.describe Api::V1::TasksController, type: :controller do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

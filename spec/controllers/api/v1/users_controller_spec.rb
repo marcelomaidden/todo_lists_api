@@ -1,5 +1,6 @@
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Api::V1::UsersController, type: :controller do
   describe 'User sign_in and sign_up' do
     let(:params) do
@@ -44,7 +45,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
             expect(response).to have_http_status(:bad_request)
 
             response_body = JSON.parse(response.body)
-            expect(response_body).to eq('error' => {"password"=>["can't be blank"]})
+            expect(response_body).to eq('error' => { 'password' => ["can't be blank"] })
           end
         end
 
@@ -57,7 +58,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
             expect(response).to have_http_status(:bad_request)
 
             response_body = JSON.parse(response.body)
-            expect(response_body).to eq('error' => {'email'=>["can't be blank", "is invalid"]})
+            expect(response_body).to eq('error' => { 'email' => ["can't be blank", 'is invalid'] })
           end
         end
 
@@ -70,7 +71,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
             expect(response).to have_http_status(:bad_request)
 
             response_body = JSON.parse(response.body)
-            expect(response_body).to eq('error' => {'email'=>["has already been taken"]})
+            expect(response_body).to eq('error' => { 'email' => ['has already been taken'] })
           end
         end
       end
@@ -102,3 +103,4 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
