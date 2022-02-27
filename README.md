@@ -8,7 +8,7 @@
 
 </div>
 <p>
-  Todo lists API is a backend project build with Ruby on Rails that allows users to create users, login using JWT token, creating tasks and add note to the tasks.</p>
+  Todo lists API is a backend project build with Ruby on Rails that allows users to create users, login using JWT token, creating tasks and add notes to the tasks.</p>
 <p>
   After authenticating the user with e-mail and password, a JWT token is generated and this is used to authenticate the requests to all endpoints in the application.
 </p>
@@ -59,7 +59,7 @@ To make any change,
 
   - Api documentation available [here](index.html.md)
 ## Test
-  - Run `rspec --format doc` to perform unit tests, also tests if React components are being correctly rendered;
+  - Run `rspec --format doc` to perform unit tests;
 
 ## Author
 
