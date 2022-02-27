@@ -1,43 +1,43 @@
-class TasksController < BaseTaskController
+class Api::V1::TasksController < Api::V1::BaseTaskController
   before_action :load_task, only: %i[show update complete uncomplete destroy]
   before_action :load_tasks, only: %i[index completed uncompleted]
 
   def index
-    render json: { tasks: @tasks }
+    render_success(tasks: @tasks)
   end
 
   def show
-    return render json: { task: @task } if @task.present?
+    return render_success(task: @task) if @task.present?
 
     not_found
   end
 
   def completed
-    render json: { tasks: @tasks.completed }
+    render_success(tasks: @tasks.completed)
   end
 
   def uncompleted
-    render json: { tasks: @tasks.uncompleted }
+    render_success(tasks: @tasks.uncompleted)
   end
 
   def complete
-    render json: { status: 'success', message: @task.completed! }
+    render_success(message: @task.completed!)
   end
 
   def uncomplete
-    render json: { status: 'success', message: @task.uncompleted! }
+    render_success(message: @task.uncompleted!)
   end
 
   def update
     return not_found unless @task.present?
 
-    return render_error(@task.errors) unless @task.update(task_params)
+    return render_bad_request(@task.errors) unless @task.update(task_params)
 
-    render json: { task: @task }
+    render_success(task: @task)
   rescue ArgumentError => e
-    render_error(e)
+    render_bad_request(e)
   rescue ActionController::ParameterMissing
-    render_error('Parameter description is missing')
+    render_bad_request('Parameter description is missing')
   end
 
   def create
@@ -45,17 +45,17 @@ class TasksController < BaseTaskController
 
     return render_error(@task.errors) unless @task.save
 
-    render json: { status: 'success', task: @task }
+    render_success(task: @task)
   rescue ArgumentError => e
-    render_error(e)
+    render_bad_request(e)
   rescue ActionController::ParameterMissing
-    render_error('Parameter description is missing')
+    render_bad_request('Parameter description is missing')
   end
 
   def destroy
-    return render_error(@task.errors) unless @task.delete
+    return render_bad_request(@task.errors) unless @task.delete
 
-    render json: { status: 'success', message: 'Task deleted' }
+    render_success(message: 'Task deleted')
   end
 
   private

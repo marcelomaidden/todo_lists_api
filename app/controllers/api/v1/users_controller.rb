@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Api::V1::UsersController < ApplicationController
   skip_before_action :token_based_auth, only: %i[create login]
   before_action :validate_user, only: %i[show update]
 
@@ -10,20 +10,20 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: { token: jwt_token }
+      render_success(token: jwt_token)
     else
-      render json: @user.errors
+      render_bad_request(@user.errors)
     end
   rescue ActionController::ParameterMissing
-    render_error('Parameter user required')
+    render_bad_request('Parameter user required')
   end
 
   def login
-    return render json: { token: jwt_token } if jwt_token
+    return render_success(token: jwt_token) if jwt_token
 
-    render_error('Invalid credentials')
+    render_bad_request('Invalid credentials')
   rescue ActionController::ParameterMissing
-    render_error('Parameter user required')
+    render_bad_request('Parameter user required')
   end
 
   private
@@ -31,7 +31,9 @@ class UsersController < ApplicationController
   def validate_user
     @user = User.find(params[:id])
 
-    return render_error('Unauthorized') if @user.id != current_user.id
+    return render_bad_request('Unauthorized') if @user.id != current_user.id
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   def user_params

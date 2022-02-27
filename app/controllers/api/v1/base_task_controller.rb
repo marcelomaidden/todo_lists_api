@@ -1,4 +1,4 @@
-class BaseTaskController < ApplicationController
+class Api::V1::BaseTaskController < ApplicationController
   protected
 
   def load_task

@@ -30,10 +30,18 @@ class ApplicationController < ActionController::API
   end
 
   def not_found
-    render json: { status: 'error', message: 'Not found' }
+    render status: 404, json: { message: 'Not found' }
   end
 
   def render_error(errors)
-    render json: { status: 'error', errors: errors }
+    render status: 403, json: { errors: errors }
+  end
+
+  def render_success(params)
+    render status: 200, json: params
+  end
+
+  def render_bad_request(message)
+    render status: 400, json: { error: message }
   end
 end
