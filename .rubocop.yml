@@ -7,6 +7,8 @@ AllCops:
     - "Rakefile"
     - "node_modules/**/*"
     - "Gemfile*"
+    - "spec/rails_helper.rb"
+    - "spec/spec_helper.rb"
 
   DisplayCopNames: true
 
