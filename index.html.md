@@ -180,7 +180,7 @@ This endpoint deletes a task from the authenticated user.
 ## List
 
 ```shell
-curl "http://localhost:3000/api/v1/tasks"
+curl "http://localhost:3000/api/v1/tasks" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
@@ -213,7 +213,7 @@ This endpoint returns all tasks for the authenticated user.
 ## Completed tasks
 
 ```shell
-curl "http://localhost:3000/api/v1/tasks/completed"
+curl "http://localhost:3000/api/v1/tasks/completed" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
@@ -246,7 +246,7 @@ This endpoint returns all completed tasks from the authenticated user.
 ## Not completed tasks
 
 ```shell
-curl "http://localhost:3000/api/v1/tasks/uncompleted"
+curl "http://localhost:3000/api/v1/tasks/uncompleted" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
@@ -279,7 +279,7 @@ This endpoint returns all not completed tasks from the authenticated user.
 ## Show
 
 ```shell
-curl "http://localhost:3000/api/v1/tasks/23"
+curl "http://localhost:3000/api/v1/tasks/23" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
@@ -370,7 +370,7 @@ This endpoint updates a task note for the authenticated user.
 ## List
 
 ```shell
-curl "http://localhost:3000/api/v1/tasks/23/notes"
+curl "http://localhost:3000/api/v1/tasks/23/notes" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
@@ -401,7 +401,7 @@ This endpoint returns all task notes from the current task.
 ## Show
 
 ```shell
-curl "http://localhost:3000/api/v1/notes/1"
+curl "http://localhost:3000/api/v1/notes/1" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer ACCESS_TOKEN"
 ```
