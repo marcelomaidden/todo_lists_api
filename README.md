@@ -50,6 +50,9 @@ To make any change,
 ## Usage
   - Run `rails s` on your terminal to start your server
 
+## API Documentation
+
+  - Api documentation available [here](index.html.md)
 ## Test
   - Run `rspec --format doc` to perform unit tests, also tests if React components are being correctly rendered;
 
