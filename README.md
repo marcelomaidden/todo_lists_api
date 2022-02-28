@@ -44,6 +44,7 @@ To get a local copy up and running follow these simple example steps.
 - Enter the project's folder `cd todo_lists_api`
 - Run `rvm use 2.4.1` to change the ruby version
 - Run `bundle install`
+- Run `rails db:create && rails db:migrate` to set up the database
 
 To make any change,
 
