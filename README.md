@@ -42,7 +42,8 @@ To get a local copy up and running follow these simple example steps.
 - Use `cd <file-path>`
 - Run `git clone https://github.com/marcelomaidden/todo_lists_api`
 - Enter the project's folder `cd todo_lists_api`
-
+- Run `rvn use 2.4.1` to change the ruby version
+- Run `bundle install`
 
 To make any change,
 
